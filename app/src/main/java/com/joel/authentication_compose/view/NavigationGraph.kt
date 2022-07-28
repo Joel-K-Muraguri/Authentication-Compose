@@ -16,7 +16,7 @@ fun NavGraph(
         startDestination = Routes.AUTHENTICATION_SCREEN )
     {
         composable(route = Routes.AUTHENTICATION_SCREEN){
-            AuthenticationScreen(navController)
+            AuthenticationScreen(navController,context)
         }
         composable(route = Routes.REGISTER_SCREEN){
             SignInScreen(navController,context)

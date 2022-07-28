@@ -1,5 +1,7 @@
 package com.joel.authentication_compose.view
 
+import android.content.Context
+import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
@@ -16,7 +18,8 @@ import androidx.navigation.compose.rememberNavController
 
 @Composable
 fun AuthenticationScreen(
-    navController: NavHostController
+    navController: NavHostController,
+    context: Context
 ){
     Column(
 
@@ -30,11 +33,13 @@ fun AuthenticationScreen(
             style = MaterialTheme.typography.h3
         )
         Button(onClick = {
+            Toast.makeText(context, "Password should be 8 characters ", Toast.LENGTH_LONG).show()
             navController.navigate(Routes.LOG_IN_SCREEN)
         }) {
             Text(text = "Log In")
         }
         Button(onClick = {
+            Toast.makeText(context, "Password should be 8characters ", Toast.LENGTH_LONG).show()
             navController.navigate(Routes.REGISTER_SCREEN)
         }) {
             Text(text = "Register")
@@ -42,9 +47,9 @@ fun AuthenticationScreen(
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun AuthenticationScreenPreview(){
-    val navController = rememberNavController()
-    AuthenticationScreen(navController)
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun AuthenticationScreenPreview(){
+//    val navController = rememberNavController()
+//    AuthenticationScreen(navController)
+//}
