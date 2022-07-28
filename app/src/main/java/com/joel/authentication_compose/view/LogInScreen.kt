@@ -88,6 +88,9 @@ fun login(context: Context, navController: NavHostController, logInRequest: LogI
                 Log.d("TEST::", "onResponse: "+response.message())
                 Toast.makeText(context, "Wrong Credentials ", Toast.LENGTH_SHORT).show()
             }
+            else if(response.code() == 403){
+                Toast.makeText(context,"Forbidden", Toast.LENGTH_SHORT).show()
+            }
             else
                 Log.d("TEST::", "onResponse: "+response.message())
                 Toast.makeText(context, " Something Went Wrong", Toast.LENGTH_SHORT).show()

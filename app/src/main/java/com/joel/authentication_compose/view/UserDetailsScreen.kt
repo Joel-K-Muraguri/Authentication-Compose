@@ -4,6 +4,7 @@ import android.content.Context
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.material.Button
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -27,6 +28,9 @@ fun DetailsScreen(context: Context){
             text = "Hello This is $name",
             style = MaterialTheme.typography.h3
         )
+        Button(onClick = { /*TODO*/ }) {
+            Text(text = "Log out")
+        }
     }
 }
 

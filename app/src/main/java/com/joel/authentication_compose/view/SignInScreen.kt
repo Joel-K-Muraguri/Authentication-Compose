@@ -102,7 +102,7 @@ fun SignInScreen(
         )
         Button(
             onClick = {
-
+//                      navController.navigate(Routes.DETAILS_SCREEN)
                   register(context,
                       RegisterRequest(location,email,phoneNumber,userName,password), navController)
             },
@@ -110,7 +110,6 @@ fun SignInScreen(
         ) {
             Text(text = "Sign In")
         }
-
     }
 }
 
@@ -124,7 +123,7 @@ fun register(context: Context, registerRequest: RegisterRequest, navController: 
             call: Call<TokenResponse>,
             response: Response<TokenResponse>)
         {
-           if (response.code() == 200){
+           if (response.code() == 200 && response.body() != null){
                //Successful Registration
                Toast.makeText(context, "Successful", Toast.LENGTH_SHORT).show()
                val userData = response.body()
@@ -135,6 +134,9 @@ fun register(context: Context, registerRequest: RegisterRequest, navController: 
                Log.d("TEST::", "onResponse: "+response.message())
                 //Already existing credentials
                 Toast.makeText(context, "Existing Credentials", Toast.LENGTH_SHORT).show()
+           }
+            else if(response.code() == 403){
+                Toast.makeText(context,"Forbidden", Toast.LENGTH_SHORT).show()
            }
             else
                 //Something went wrong
