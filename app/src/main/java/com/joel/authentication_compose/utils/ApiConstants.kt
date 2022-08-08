@@ -1,4 +1,4 @@
-package com.joel.authentication_compose.model
+package com.joel.authentication_compose.utils
 
 object ApiConstants {
     const val MAIN_URL = "https://joel14290.pythonanywhere.com/"

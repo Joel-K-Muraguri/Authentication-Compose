@@ -3,30 +3,40 @@ package com.joel.authentication_compose.view
 import android.content.Context
 import android.util.Log
 import android.widget.Toast
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.joel.authentication_compose.auth.AuthUiEvent
 import com.joel.authentication_compose.model.*
+import com.joel.authentication_compose.network.ApiService
+import com.joel.authentication_compose.network.SessionManager
+import com.joel.authentication_compose.viewmodel.AuthViewModel
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 @Composable
 fun LogInScreen(
-    navController: NavHostController,
-    context: Context
+    authViewModel: AuthViewModel = hiltViewModel(),
 ){
+    var state = authViewModel.state
+
+    val context = LocalContext.current
+    val navController = rememberNavController()
     var userName by remember {
         mutableStateOf("")
     }
@@ -41,9 +51,9 @@ fun LogInScreen(
 
     ) {
             OutlinedTextField(
-                value = userName,
+                value = state.isUserNameChanged,
                 onValueChange = {
-                    userName = it
+                                authViewModel.onEvents(AuthUiEvent.IsUserNameChangedLogin(it))
                 },
                 label = {
                     Text(text = "UserName")
@@ -51,9 +61,9 @@ fun LogInScreen(
                 shape = RoundedCornerShape(20.dp)
             )
         OutlinedTextField(
-            value = password,
+            value = state.isPasswordChanged,
             onValueChange = {
-                password = it
+                authViewModel.onEvents(AuthUiEvent.IsPasswordChangedLogin(it))
             },
             label = {
                 Text(text = "Password")
@@ -62,17 +72,26 @@ fun LogInScreen(
         )
         Button(
             onClick = {
-                   login(context,navController, LogInRequest(userName, password))
+                 //  login(context,navController, LogInRequest(userName, password))
+                authViewModel.onEvents(AuthUiEvent.Login)
             },
             shape = RoundedCornerShape(20.dp)
         ) {
             Text(text = "Log In")
         }
 
+        if (state.isLoading){
+            Box(modifier = Modifier
+                .fillMaxSize()
+                .background(Color.White))
+            {
+                CircularProgressIndicator()
+            }
+        }
     }
 }
 
-fun login(context: Context, navController: NavHostController, logInRequest: LogInRequest){
+suspend fun login(context: Context, navController: NavHostController, logInRequest: LogInRequest){
     val apiService = ApiService.getInstance()
     val sessionManager = SessionManager(context)
     Toast.makeText(context, "Logging in", Toast.LENGTH_SHORT).show()

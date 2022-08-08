@@ -11,16 +11,16 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 
 @Composable
-fun AuthenticationScreen(
-    navController: NavHostController,
-    context: Context
-){
+fun AuthenticationScreen(){
+    val navController = rememberNavController()
+    val context = LocalContext.current
     Column(
 
         modifier = Modifier.padding(10.dp),

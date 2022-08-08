@@ -5,27 +5,26 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 
 @Composable
-fun NavGraph(
-    navController: NavHostController,
-    context: Context
-){
+fun NavGraph(){
+    val navController = rememberNavController()
     NavHost(
-        navController = navController ,
+        navController = navController,
         startDestination = Routes.AUTHENTICATION_SCREEN )
     {
         composable(route = Routes.AUTHENTICATION_SCREEN){
-            AuthenticationScreen(navController,context)
+            AuthenticationScreen()
         }
         composable(route = Routes.REGISTER_SCREEN){
-            SignInScreen(navController,context)
+            SignInScreen()
         }
         composable(route = Routes.LOG_IN_SCREEN){
-            LogInScreen(navController,context)
+            LogInScreen()
         }
         composable(route = Routes.DETAILS_SCREEN){
-            DetailsScreen(context)
+            DetailsScreen()
         }
 
     }

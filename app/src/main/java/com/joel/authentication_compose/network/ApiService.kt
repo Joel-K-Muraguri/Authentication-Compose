@@ -1,27 +1,30 @@
-package com.joel.authentication_compose.model
+package com.joel.authentication_compose.network
 
+import com.joel.authentication_compose.utils.ApiConstants
+import com.joel.authentication_compose.model.LogInRequest
+import com.joel.authentication_compose.model.RegisterRequest
+import com.joel.authentication_compose.model.TokenResponse
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.Body
-import retrofit2.http.FormUrlEncoded
 import retrofit2.http.POST
 
 interface ApiService {
     @POST(ApiConstants.REGISTER_ENDPOINT)
-    fun register(
+    suspend fun register(
         @Body request: RegisterRequest
-    ) : Call<TokenResponse>
+    ) : TokenResponse
 
 
     @POST(ApiConstants.LOG_IN_ENDPOINT)
-     fun login(
+    suspend fun login(
         @Body request: LogInRequest
-    ) : Call<TokenResponse>
+    ) : TokenResponse
 
 
     companion object{
-       private var apiService : ApiService ? = null
+       private var apiService : ApiService? = null
         fun getInstance() : ApiService {
             if (apiService == null){
                 return Retrofit.Builder()

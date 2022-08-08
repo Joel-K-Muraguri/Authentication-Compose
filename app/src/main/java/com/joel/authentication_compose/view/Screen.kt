@@ -9,11 +9,12 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.tooling.preview.Preview
-import com.joel.authentication_compose.model.SessionManager
+import androidx.compose.ui.platform.LocalContext
+import com.joel.authentication_compose.network.SessionManager
 
 @Composable
-fun DetailsScreen(context: Context){
+fun DetailsScreen(){
+    val context = LocalContext.current
     val name: String?
     name = "Authentication App Demo"
 
@@ -21,12 +22,12 @@ fun DetailsScreen(context: Context){
     Toast.makeText(context, token, Toast.LENGTH_SHORT).show()
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
+        verticalArrangement = Arrangement.SpaceEvenly
     ) {
         
         Text(
-            text = "Hello This is $name",
-            style = MaterialTheme.typography.h3
+            text = "You are authenticated",
+            style = MaterialTheme.typography.h5
         )
         Button(onClick = { /*TODO*/ }) {
             Text(text = "Log out")
