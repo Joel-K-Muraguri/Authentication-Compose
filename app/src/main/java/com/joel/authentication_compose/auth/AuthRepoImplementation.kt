@@ -71,7 +71,7 @@ class AuthRepoImplementation(
 
     override suspend fun authenticate(): AuthResult<Unit> {
         return try{
-           
+
             val token = prefs.getString(ApiConstants.USER_TOKEN, "") ?: return AuthResult.Unauthorized()
             apiService.authenticate("Token $token")
             AuthResult.Authorized()
