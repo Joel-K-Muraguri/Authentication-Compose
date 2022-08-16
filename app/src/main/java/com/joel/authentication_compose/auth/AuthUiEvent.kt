@@ -1,6 +1,5 @@
 package com.joel.authentication_compose.auth
 
-import android.location.Location
 
 sealed class AuthUiEvent{
 

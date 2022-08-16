@@ -16,11 +16,17 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.joel.authentication_compose.view.destinations.LogInScreenDestination
+import com.joel.authentication_compose.view.destinations.SignInScreenDestination
+import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
+@Destination(start = true)
 @Composable
-fun AuthenticationScreen(){
-    val navController = rememberNavController()
-    val context = LocalContext.current
+fun AuthenticationScreen(
+    navigator: DestinationsNavigator
+){
+
     Column(
 
         modifier = Modifier.padding(10.dp),
@@ -33,14 +39,14 @@ fun AuthenticationScreen(){
             style = MaterialTheme.typography.h3
         )
         Button(onClick = {
-            Toast.makeText(context, "Password should be 8 characters ", Toast.LENGTH_LONG).show()
-            navController.navigate(Routes.LOG_IN_SCREEN)
+            navigator.navigate(LogInScreenDestination)
+
         }) {
             Text(text = "Log In")
         }
         Button(onClick = {
-            Toast.makeText(context, "Password should be 8characters ", Toast.LENGTH_LONG).show()
-            navController.navigate(Routes.REGISTER_SCREEN)
+            navigator.navigate(SignInScreenDestination)
+
         }) {
             Text(text = "Register")
         }

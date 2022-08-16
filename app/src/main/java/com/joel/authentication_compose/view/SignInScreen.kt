@@ -25,18 +25,24 @@ import com.joel.authentication_compose.auth.AuthUiEvent
 import com.joel.authentication_compose.model.*
 import com.joel.authentication_compose.network.ApiService
 import com.joel.authentication_compose.network.SessionManager
+import com.joel.authentication_compose.view.destinations.AuthenticationScreenDestination
+import com.joel.authentication_compose.view.destinations.DetailsScreenDestination
 import com.joel.authentication_compose.viewmodel.AuthViewModel
+import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+import com.ramcosta.composedestinations.navigation.popUpTo
 import kotlinx.coroutines.flow.collect
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
+@Destination
 @Composable
 fun SignInScreen(
-    authViewModel: AuthViewModel = viewModel(),
+    authViewModel: AuthViewModel = hiltViewModel(),
+    navigator: DestinationsNavigator
 ){
 
-    val navController = rememberNavController()
     val context = LocalContext.current
     val state = authViewModel.state
 
@@ -45,13 +51,16 @@ fun SignInScreen(
            when(result){
                is AuthResult.Authorized -> {
                    Toast.makeText(context, "Successful", Toast.LENGTH_SHORT).show()
-
+                   navigator.navigate(DetailsScreenDestination){
+                       popUpTo(AuthenticationScreenDestination)
+                   }
                }
                is AuthResult.Unauthorized -> {
+                   Toast.makeText(context, "You are not Authorized", Toast.LENGTH_SHORT).show()
 
                }
                is AuthResult.UnknownError -> {
-
+                   Toast.makeText(context, "An Unknown Error Occurred", Toast.LENGTH_SHORT).show()
                }
            }
        }
@@ -117,8 +126,7 @@ fun SignInScreen(
         )
         Button(
             onClick = {
-//                      navController.navigate(Routes.DETAILS_SCREEN)
-                 // register(context, RegisterRequest(location,email,phoneNumber,userName,password), navController)
+
                 authViewModel.onEvents(AuthUiEvent.SignIn)
 
             },
@@ -138,42 +146,3 @@ fun SignInScreen(
     }
 }
 
-//suspend fun register(context: Context, registerRequest: RegisterRequest, navController: NavHostController){
-//    val apiService = ApiService.getInstance()
-//    val sessionManager = SessionManager(context)
-//
-//    Toast.makeText(context, "Signing in...", Toast.LENGTH_SHORT).show()
-//    apiService.register(registerRequest).enqueue(object : Callback<TokenResponse>{
-//        override fun onResponse(
-//            call: Call<TokenResponse>,
-//            response: Response<TokenResponse>)
-//        {
-//           if (response.code() == 200 && response.body() != null){
-//               //Successful Registration
-//               Toast.makeText(context, "Successful", Toast.LENGTH_SHORT).show()
-//               val userData = response.body()
-//               sessionManager.saveAuthToken(userData!!.token)
-//               navController.navigate(Routes.DETAILS_SCREEN)
-//           }
-//            else if (response.code() == 401){
-//               Log.d("TEST::", "onResponse: "+response.message())
-//                //Already existing credentials
-//                Toast.makeText(context, "Existing Credentials", Toast.LENGTH_SHORT).show()
-//           }
-//            else if(response.code() == 403){
-//                Toast.makeText(context,"Forbidden", Toast.LENGTH_SHORT).show()
-//           }
-//            else
-//                //Something went wrong
-//               Log.d("TEST::", "onResponse: "+response.message())
-//                Toast.makeText(context, "Something went Wrong", Toast.LENGTH_SHORT).show()
-//
-//        }
-//
-//        override fun onFailure(call: Call<TokenResponse>, t: Throwable) {
-//            Log.d("TEST::", "onResponse: "+ t.message)
-//     //       Toast.makeText(context, "Unauthorized Access", Toast.LENGTH_SHORT).show()
-//        }
-//
-//    })
-//}

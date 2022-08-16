@@ -9,19 +9,22 @@ import androidx.compose.material.Surface
 import androidx.compose.ui.Modifier
 import com.joel.authentication_compose.ui.theme.AuthenticationComposeTheme
 import com.joel.authentication_compose.view.NavGraph
+import com.joel.authentication_compose.view.NavGraphs
+import com.ramcosta.composedestinations.DestinationsNavHost
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
-        setContent {            AuthenticationComposeTheme {
+        setContent {
+            AuthenticationComposeTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background) {
-                    NavGraph()
-
+                    DestinationsNavHost(navGraph = NavGraphs.root)
                 }
             }
         }

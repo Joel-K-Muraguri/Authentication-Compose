@@ -8,6 +8,8 @@ import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.Body
+import retrofit2.http.GET
+import retrofit2.http.Header
 import retrofit2.http.POST
 
 interface ApiService {
@@ -20,6 +22,11 @@ interface ApiService {
     @POST(ApiConstants.LOG_IN_ENDPOINT)
     suspend fun login(
         @Body request: LogInRequest
+    ) : TokenResponse
+
+    @GET(ApiConstants.AUTHENTICATE_ENDPOINT)
+    suspend fun authenticate(
+        @Header("Authorization") token : String
     ) : TokenResponse
 
 

@@ -13,16 +13,21 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @HiltViewModel
-class AuthViewModel(
+class AuthViewModel @Inject constructor(
     private val repository : AuthRepoImplementation
-) : ViewModel() {
+): ViewModel() {
 
     var state by mutableStateOf(AuthState())
 
     private val resultChannel = Channel<AuthResult<Unit>>()
     var authResults = resultChannel.receiveAsFlow()
+
+    init {
+        authenticate()
+    }
 
     fun onEvents(event: AuthUiEvent) {
         when (event) {
@@ -89,7 +94,15 @@ class AuthViewModel(
             resultChannel.send(result)
             state = state.copy(isLoading = false)
         }
+    }
 
+    private fun authenticate(){
+        viewModelScope.launch {
+            state = state.copy(isLoading = true)
+            val result = repository.authenticate()
+            resultChannel.send(result)
+            state = state.copy(isLoading = false)
+        }
     }
 }
 
