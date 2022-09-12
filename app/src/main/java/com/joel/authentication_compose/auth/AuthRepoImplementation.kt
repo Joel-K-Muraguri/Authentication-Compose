@@ -1,7 +1,7 @@
 package com.joel.authentication_compose.auth
 
 import android.content.SharedPreferences
-import androidx.navigation.NavHostController
+import android.util.Log
 import com.joel.authentication_compose.model.LogInRequest
 import com.joel.authentication_compose.model.RegisterRequest
 import com.joel.authentication_compose.network.ApiService
@@ -21,9 +21,10 @@ class AuthRepoImplementation(
                     password = password
                 )
             )
-            login(userName, password)
+           AuthResult.Authorized()
         }
         catch (e: HttpException){
+            Log.d("TEST::", "login:  Unauthorized"+e.message)
             if (e.code() == 401){
                AuthResult.Unauthorized()
             }
@@ -31,6 +32,7 @@ class AuthRepoImplementation(
                 AuthResult.UnknownError()
         }
         catch (e : Exception){
+            Log.d("TEST::", "login: Unknown error ")
             AuthResult.UnknownError()
         }
     }
@@ -71,7 +73,6 @@ class AuthRepoImplementation(
 
     override suspend fun authenticate(): AuthResult<Unit> {
         return try{
-
             val token = prefs.getString(ApiConstants.USER_TOKEN, "") ?: return AuthResult.Unauthorized()
             apiService.authenticate("Token $token")
             AuthResult.Authorized()

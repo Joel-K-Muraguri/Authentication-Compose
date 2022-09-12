@@ -20,7 +20,6 @@ fun DetailsScreen(
     navigator: DestinationsNavigator
 ){
     val context = LocalContext.current
-
     val token = SessionManager(context).fetchAuthToken()
     Toast.makeText(context, token, Toast.LENGTH_SHORT).show()
     Column(
@@ -30,7 +29,7 @@ fun DetailsScreen(
         verticalArrangement = Arrangement.Center
     ) {
         Text(
-            text = "You are authenticated",
+            text = "Hi , You are authenticated",
             fontSize = 25.sp
         )
         Spacer(modifier = Modifier.height(10.dp))

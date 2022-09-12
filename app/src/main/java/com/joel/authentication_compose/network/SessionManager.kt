@@ -10,18 +10,18 @@ class SessionManager(
 ) {
     private val prefs : SharedPreferences = context.getSharedPreferences(context.getString(R.string.app_name), Context.MODE_PRIVATE)
 
-    fun saveAuthToken(token : String){
+    //In this class we are going to save the authentication token and fetch the token
+
+
+    fun saveAuthToken(token: String){
         val editor = prefs.edit()
         editor.putString(ApiConstants.USER_TOKEN, token)
         editor.apply()
     }
 
-    fun fetchAuthToken(): String?{
-        return prefs.getString(ApiConstants.USER_TOKEN, " ")
-    }
-
-    fun checkStatus() {
+    //we are using the fetch token to display user token on the screen
+    fun fetchAuthToken() : String? {
+        return prefs.getString(ApiConstants.USER_TOKEN, "")
 
     }
-
 }

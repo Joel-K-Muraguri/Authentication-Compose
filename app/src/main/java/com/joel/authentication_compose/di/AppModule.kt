@@ -32,13 +32,14 @@ object AppModule {
     @Provides
     @Singleton
     fun provideSharedPreferences(app : Application) : SharedPreferences{
-        return app.getSharedPreferences("name", MODE_PRIVATE)
-
+        return app.getSharedPreferences("prefs", MODE_PRIVATE)
     }
 
     @Provides
     @Singleton
-    fun provideAuthRepo(apiService: ApiService, prefs: SharedPreferences): AuthRepoImplementation {
+    fun provideAuthRepo(apiService: ApiService, prefs: SharedPreferences): AuthRepo {
         return AuthRepoImplementation(apiService, prefs)
     }
+
 }
+
